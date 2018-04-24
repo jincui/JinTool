@@ -1,0 +1,17 @@
+{
+  "name": "JinTool",
+  "version": "1.0.0",
+  "description": "my tool",
+  "main": "index.js",
+  "repository": "https://github.com/jincui/JinTool.git",
+  "author": "c.jin <c.jin@tianrang-inc.com>",
+  "license": "MIT",
+  "dependencies": {
+    "pug": "^2.0.3",
+    "stylus": "^0.54.5",
+    "vue": "^2.5.16"
+  },
+  "devDependencies": {
+    "webpack": "^4.6.0"
+  }
+}
