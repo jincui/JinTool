@@ -1,7 +1,11 @@
 var webpack = require('webpack')
 
 module.exports = {
-
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: './build/assets',
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
