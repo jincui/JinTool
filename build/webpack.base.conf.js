@@ -42,9 +42,24 @@ module.exports = {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
+        test: /\.pug$/,
+        exclude: /node_modules/,
+        loader: 'pug-loader',
+      },
+      {
         test: /\.vue$/,
-        loader: 'vue-loader',
-        options: vueLoaderConfig
+        use: [
+          {
+            loader: 'vue-loader',
+            options: vueLoaderConfig
+          },
+          {
+            loader: 'iview-loader',
+            options: {
+              prefix: false
+            }
+          }
+        ]
       },
       {
         test: /\.js$/,
