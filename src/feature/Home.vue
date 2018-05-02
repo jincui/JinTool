@@ -4,14 +4,10 @@
     .bg
     Input.search-input(v-model="search")
   div.tool-search-list
-    .tool-item
-      .tool-cover
-        img(src="http://3.pic.pc6.com/thumb/up/2014-7/14060928939823225_600_0.jpg")
-      .tool-name 字体生成
-    .tool-item
-      .tool-cover
-        img(src="https://www.wenba.ca/uploads/questions/20180226/45ee25db451c99541400ed549773a823.jpg")
-      .tool-name 随机游戏
+    .tool-item(v-for="tool in toolList")
+      .tool-cover(:style="{ backgroundImage: 'url(' + tool.cover + ')' }")
+      .tool-name {{ tool.name }}
+
 </template>
 
 <script>
@@ -20,6 +16,28 @@ export default {
   data() {
     return {
       search: null,
+      toolList: [
+        {
+          name: '字体生成',
+          cover: 'http://3.pic.pc6.com/thumb/up/2014-7/14060928939823225_600_0.jpg',
+          link: '',
+        },
+        {
+          name: '随机游戏',
+          cover: 'https://www.wenba.ca/uploads/questions/20180226/45ee25db451c99541400ed549773a823.jpg',
+          link: '',
+        },
+        {
+          name: '成语接龙',
+          cover: 'http://file.azg168.cn/file/shengxiao/long/20170715/0d3e818dd647e41f7d0eb5b860bbeb73.jpg',
+          link: '',
+        },
+        {
+          name: '画表情',
+          cover: 'http://sucimg.itc.cn/avatarimg/e6aeed6c1cb647caa3fea7b1cb98d17f_1496979707575',
+          link: '',
+        },
+      ],
     };
   },
 };
@@ -43,7 +61,7 @@ export default {
     width 300px
     position relative
     top -18px
-  .tool-item 
+  .tool-item
     display inline-block
     cursor pointer
     vertical-align top
@@ -56,12 +74,9 @@ export default {
     .tool-cover
       width 100%
       height 80px
-      overflow hidden
+      background-size cover
+      background-position center center
       transition-duration inherit
-      img
-        width 100%
-        height 100%
-        transition-duration inherit
     .tool-name
       transition-duration inherit
       position absolute
@@ -81,7 +96,4 @@ export default {
         font-weight bold
         bottom 50%
         transform translateY(50%)
-
-
-
 </style>
