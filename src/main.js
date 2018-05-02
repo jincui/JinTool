@@ -3,6 +3,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import iView from 'iview';
+import 'iview/dist/styles/iview.css';
 import App from './App';
 import configStore from './common/storeConfig';
 import router from './common/routeConfig';
