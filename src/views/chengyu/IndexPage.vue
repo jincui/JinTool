@@ -1,14 +1,14 @@
 <template lang="pug">
 div
-  .info-bar
-    span 当前词库共有成语：{{status.total}}
-    span 剩余可用：{{status.valid}}
-    span 用户数：{{users.length}}
+  .info-bar.bg
+    span 当前词库共有成语：<b>{{status.total}}</b>
+    span 剩余可用：<b>{{status.valid}}</b>
+    span 用户数：<b>{{users.length}}</b>
     button(@click="start" v-if="!status.gaming") 开始
   .container
-    .user-list-view
+    .user-list-view.bg
       user-list(:users="users" :turn="currentTurn")
-    .chat-battle-view
+    .chat-battle-view.bg
       chat-battle-box(:data="chatList" :user="currentUser")
       p.tip {{tip}}
       .input-box(v-show="currentUser && currentTurn === currentUser.id")
@@ -77,11 +77,21 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.bg
+  background alpha(white, 0.2)
+  padding 5px
+  border-radius 4px
+.info-bar
+  text-align center
+  > span
+    margin-right 10px
+
 .container
   display flex
-  padding 20px
+  padding 10px
   .user-list-view
     width 200px
+    margin-right 15px
   .chat-battle-view
     flex 1
   .tip

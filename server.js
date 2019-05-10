@@ -117,7 +117,7 @@ function render (req, res) {
   })
 }
 
-app.get('/chengyu', isProd ? render : (req, res) => {
+app.get('*', isProd ? render : (req, res) => {
   readyPromise.then(() => render(req, res))
 })
 
