@@ -29,11 +29,11 @@ module.exports.init = (server) => {
       // is usered
       if (!tip) {
         if (_.includes(coveredData, content)) {
-          socket.emit('msg', { id: getId(), type: 'error', msg: '该成语已被使用过，请更换' });
+          socket.emit('msg', { id: getId(), type: 'error', msg: `"${content}"已被使用过，请更换` });
           return false;
         }
         if (!_.includes(validData, content)) {
-          socket.emit('msg', { id: getId(), type: 'error', msg: '该成语不在库中（当前成语词库可能比较老旧，见谅）' });
+          socket.emit('msg', { id: getId(), type: 'error', msg: `"${content}"不在库中（当前成语词库可能比较老旧，见谅）` });
           return false;
         }
         if (last && !_.startsWith(content, _.last(last))) {
@@ -68,9 +68,11 @@ module.exports.init = (server) => {
       currentTurn = (currentTurn + 1) % userList.length;
       io.emit('turn', currentTurn);
       if (userList[currentTurn].ai) {
-        const content = _.find(validData, v => _.startsWith(v, _.last(last)));
-        const res = addContent(content, '小Q')
-        if (res) changeTurn();
+        setTimeout(() => {
+          const content = _.find(validData, v => _.startsWith(v, _.last(last)));
+          const res = addContent(content, '小Q')
+          if (res) changeTurn();
+        }, 1000)
       }
     }
 
@@ -86,7 +88,6 @@ module.exports.init = (server) => {
     }
     socket.on('disconnect', () => {
       console.log('a user disconnnected')
-      userCount-=1;
       _.remove(userList, u => u.id === number);
       io.emit('users', { users: userList, msg: { type: 'info', id: getId(), msg: `${number}号小伙伴离开了` } });
     })
