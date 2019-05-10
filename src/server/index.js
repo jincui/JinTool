@@ -116,6 +116,7 @@ module.exports.init = (server) => {
     })
 
     socket.on('pass', () => {
+      io.emit('msg', { id: getId(), type: 'info', msg: `${name}使用了pass!` })
       changeTurn();
     })
   })
