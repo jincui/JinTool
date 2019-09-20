@@ -1,5 +1,5 @@
 <template lang="pug">
-div.chat-view
+div.chat-view(ref="box")
   .chat-item(
     v-for="item in data"
     :key="item.id"
@@ -8,22 +8,39 @@ div.chat-view
     p(v-if="item.type")
       span.tip(:class="[item.type]") {{item.msg}}
     p(v-else)
-      | {{item.name}}: {{item.content}}
-      span(v-if="item.tip") ({{item.tip}})
+      span.name {{item.name}}：
+      span {{item.content}}
+      span.system-tip(v-if="item.tip") ({{item.tip}})
 </template>
 <script>
 export default {
   props: ['data', 'user'],
+  watch: {
+    data: function() {
+      console.log('data change')
+      setTimeout(() => {
+        const dom = this.$refs.box;
+        dom.scrollTop = dom.scrollHeight - dom.offsetHeight
+      }, 0)
+      
+    }
+  }
 };
 </script>
 
 <style lang="stylus" scoped>
 .chat-view
-  // max-height 400px
-  // overflow-y auto
+  max-height 400px
+  overflow-y auto
 .chat-item
   text-align left
   margin: 2px 0px
+  .name
+    color pink
+  .system-tip
+    font-size 13px
+    color white
+    margin-left 10px
   &.text-right
     text-align right
   .tip

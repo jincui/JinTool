@@ -96,5 +96,5 @@ export default {
     flex 1
   .tip
     font-size 10px
-    color grey
+    color yellow
 </style>
