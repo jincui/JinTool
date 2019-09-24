@@ -7,7 +7,10 @@
 </template>
 
 <style lang="stylus">
+html
+  font-size 62.5%
 body
+  font-size 1.4rem
   min-height 100vh
   background: #355C7D;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #C06C84, #6C5B7B, #355C7D);  /* Chrome 10-25, Safari 5.1-6 */

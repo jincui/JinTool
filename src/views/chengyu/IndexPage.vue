@@ -1,13 +1,12 @@
 <template lang="pug">
 div
   .info-bar.bg
-    span 当前词库共有成语：<b>{{status.total}}</b>
-    span 剩余可用：<b>{{status.valid}}</b>
+    span 当前词库：<b><span class="valid">{{status.valid}}</span><span>/{{status.total}}</span></b>
     span 用户数：<b>{{users.length}}</b>
     button(@click="start" v-if="!status.gaming") 开始
   .container
     .user-list-view.bg
-      user-list(:users="users" :turn="currentTurn")
+      user-list(:users="users" :turn="currentTurn" :currentUser="currentUser")
     .chat-battle-view.bg
       chat-battle-box(:data="chatList" :user="currentUser")
       p.tip {{tip}}
@@ -83,8 +82,16 @@ export default {
   border-radius 4px
 .info-bar
   text-align center
+  button
+    color white
+    background-color purple
+    border-radius 5px
+    border none
+    padding 5px 20px
   > span
     margin-right 10px
+  .valid
+    color lightgreen
 
 .container
   display flex
@@ -95,6 +102,22 @@ export default {
   .chat-battle-view
     flex 1
   .tip
-    font-size 10px
+    font-size 1rem
     color yellow
+@media screen and (max-width: 500px)
+  .container
+    display block
+    .user-list-view, .chat-battle-view
+      display block
+      width unset
+      margin 0px 0px 10px 0px
+  .info-bar 
+    position relative
+    text-align left 
+    > span
+      display block
+    button
+      position absolute
+      right 10px
+      bottom 5px
 </style>

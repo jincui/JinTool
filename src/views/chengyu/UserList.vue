@@ -1,12 +1,12 @@
 <template lang="pug">
 .user-box
   ul.user-list
-    li(v-for="user in users" :key="user.id" :class="{active: turn === user.id}") {{ user.name }}
+    li(v-for="user in users" :key="user.id" :class="{active: turn === user.id}") {{ user.name }}{{ user.id === currentUser.id ? '(我)' : ''}}
 
 </template>
 <script>
 export default {
-  props: ['users', 'turn'],
+  props: ['users', 'turn', 'currentUser'],
 };
 </script>
 

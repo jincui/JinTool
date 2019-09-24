@@ -76,8 +76,8 @@ module.exports.init = (server) => {
     function changeTurn(turn = (currentTurn + 1) % userList.length) {
       if (userList.length === 1 && userList[0].ai) {
         // 只剩小Q了
-        io.emit('msg', { id: getId(), type: 'info', msg: '玩家全部都离开了，游戏停止!' });
         reset();
+        console.log('玩家全部都离开了，游戏停止!');
         return;
       }
       currentTurn = turn;
@@ -99,6 +99,7 @@ module.exports.init = (server) => {
     io.emit('users', { users: userList, msg: { type: 'info', id: getId(), msg: `欢迎${number}号小伙伴加入 ${gameStart ? '' : '等待游戏开始'}` } });
     socket.emit('user', _.last(userList));
     if (gameStart) {
+      socket.emit('turn', currentTurn)
       socket.emit('msg', { id: getId(), type: 'info', msg: `等待${userList[currentTurn].name}回答，当前成语“${last}”`})
     }
     socket.on('disconnect', () => {
@@ -106,25 +107,26 @@ module.exports.init = (server) => {
       const current = userList[currentTurn];
       _.remove(userList, u => u.id === number);
       io.emit('users', { users: userList, msg: { type: 'info', id: getId(), msg: `${number}号小伙伴离开了` } });
+      if (!gameStart) return;
       if (number === current.id) {
         // 离开的人是currentTurn
         changeTurn(currentTurn % userList.length);
       } else {
-        currentTurn = _.findIndex(userList, ['id', current.id])
+        changeTurn(_.findIndex(userList, ['id', current.id]))
       }
     })
 
     socket.on('start', (userId) => {
-      console.log('game start');
-      gameStart = true;
-      validData = _.clone(data);
-      coveredData = []
-      last = null
       const index = _.findIndex(userList, ['id', userId]);
       if (index !== 1) {
         socket.emit('msg', { type: 'error', msg: '只有队长可以点击开始', id: getId() });
         return;
       }
+      console.log('game start');
+      gameStart = true;
+      validData = _.clone(data);
+      coveredData = []
+      last = null
       io.emit('msg', { type: 'info', msg: '游戏开始，由小Q先出题', id: getId() });
       const content = _.sample(validData);
       const res = addContent(content, '小Q')

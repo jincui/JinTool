@@ -35,16 +35,17 @@ export default {
 .chat-item
   text-align left
   margin: 2px 0px
+  font-size 1.4rem
   .name
     color pink
   .system-tip
-    font-size 13px
+    font-size 1.3rem
     color white
     margin-left 10px
   &.text-right
     text-align right
   .tip
-    font-size 10px
+    font-size 1.2rem
     &.info 
       color blue
     &.error
