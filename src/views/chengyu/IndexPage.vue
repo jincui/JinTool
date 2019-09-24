@@ -53,7 +53,7 @@ export default {
     this.socket.on('status', s => this.status = s)
     this.socket.on('turn', t =>  { 
       this.currentTurn = t
-      this.tip = `等待${this.users[t].name}回答...`;
+      this.tip = `等待${_.get(_.find(this.users, ['id', t]), 'name')}回答...`;
     })
     this.socket.on('msg', m => this.chatList.push(m))
     this.socket.on('input', d => {

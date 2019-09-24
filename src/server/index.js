@@ -22,6 +22,15 @@ module.exports.init = (server) => {
     return new Date().getTime();
   }
 
+  function reset() {  // 重置状态
+    userCount = 0
+    validData = _.clone(data)
+    currentTurn = 0
+    coveredData = []
+    last = null
+    gameStart = false
+  }
+
 
   io.on('connection', function (socket) {
 
@@ -64,9 +73,15 @@ module.exports.init = (server) => {
       return true;
     }
 
-    function changeTurn() {
-      currentTurn = (currentTurn + 1) % userList.length;
-      io.emit('turn', currentTurn);
+    function changeTurn(turn = (currentTurn + 1) % userList.length) {
+      if (userList.length === 1 && userList[0].ai) {
+        // 只剩小Q了
+        io.emit('msg', { id: getId(), type: 'info', msg: '玩家全部都离开了，游戏停止!' });
+        reset();
+        return;
+      }
+      currentTurn = turn;
+      io.emit('turn', userList[currentTurn].id);
       if (userList[currentTurn].ai) {
         setTimeout(() => {
           const content = _.find(validData, v => _.startsWith(v, _.last(last)));
@@ -88,8 +103,15 @@ module.exports.init = (server) => {
     }
     socket.on('disconnect', () => {
       console.log('a user disconnnected')
+      const current = userList[currentTurn];
       _.remove(userList, u => u.id === number);
       io.emit('users', { users: userList, msg: { type: 'info', id: getId(), msg: `${number}号小伙伴离开了` } });
+      if (number === current.id) {
+        // 离开的人是currentTurn
+        changeTurn(currentTurn % userList.length);
+      } else {
+        currentTurn = _.findIndex(userList, ['id', current.id])
+      }
     })
 
     socket.on('start', (userId) => {
