@@ -7,7 +7,9 @@ Vue.use(Router)
 // const createListView = id => () => import('../views/CreateListView').then(m => m.default(id))
 // const ItemView = () => import('../views/ItemView.vue')
 // const UserView = () => import('../views/UserView.vue')
-const Chengyu = () => import('../views/chengyu/IndexPage.vue')
+const Chengyu = () => import('../views/chengyu/IndexPage.vue') // 成语接龙
+const Turntable = () => import('../views/turntable/IndexPage.vue');  // 大转盘
+const Jump = () => import('../views/jump/IndexPage.vue'); // 跳一跳
 
 export function createRouter () {
   return new Router({
@@ -22,7 +24,9 @@ export function createRouter () {
       // { path: '/job/:page(\\d+)?', component: createListView('job') },
       // { path: '/item/:id(\\d+)', component: ItemView },
       { path: '/chengyu', component: Chengyu },
-      { path: '/', redirect: '/chengyu' }
+      { path: '/', redirect: '/chengyu' },
+      { path: '/turntable', component: Turntable },
+      { path: '/jump', component: Jump }
     ]
   })
 }
